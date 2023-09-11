@@ -3,6 +3,11 @@ import Modal from './Modal';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
+
+  const jobCreated = () => {
+    setShowModal(false)
+  }
+
   return (
     <>
       <button
@@ -13,7 +18,7 @@ function App() {
         Create Job
       </button>
       {
-        showModal ? <Modal showModal="showModal" /> : null
+        showModal ? <Modal showModal={showModal} setShowModal={jobCreated} /> : null
       }
     </>
   );

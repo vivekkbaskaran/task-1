@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import Input from './components/Input';
 import Radio from './components/Radio'
 import { FORM_FIELDS, TITLE, STEP1, STEP2, STEP1_SUBMIT_BUTTON, STEP2_SUBMIT_BUTTON } from './constants/const';
+import { JOB_API } from './constants/apiConst';
 
 export default function Modal(props) {
-    const { showModal } = props
+    const { showModal, setShowModal } = props
     const [step, _setStep] = useState(1)
     const [formValues, setFormValues] = useState(FORM_FIELDS)
 
@@ -13,7 +15,8 @@ export default function Modal(props) {
         const { 
             job_title, company_name, industry, location, remote_type, 
             min_experience, max_experience, min_salary, max_salary, 
-            total_employee, apply_type } = formValues;
+            total_employee, apply_type
+        } = formValues;
         const payload = {
             job_title: job_title.value,
             company_name: company_name.value, 
@@ -27,16 +30,22 @@ export default function Modal(props) {
             total_employee: total_employee.value,
             apply_type: apply_type.value
         };
-        console.log('payload', payload)
+        axios.post(JOB_API.URL, payload)
+        .then(response => {
+            const { status, statusText } = response;
+            if (status === 201 && statusText.toLowerCase() === "created") {
+                setShowModal(false)
+            }
+        });
     }
 
     const handleChange = (e, field) => {
-        console.log('values', field)
         formValues[field].value = e.target.value;
         setFormValues(formValues);
     };
 
     const stepOneSubmit = () => {
+        console.log('formValues', formValues)
         _setStep(2)
     }
 
