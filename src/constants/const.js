@@ -1,13 +1,10 @@
-
 export const TITLE = 'Create a job';
 export const STEP1 = 'Step 1';
 export const STEP1_SUBMIT_BUTTON = 'Next';
 export const STEP2_SUBMIT_BUTTON = 'Save';
 export const STEP2 = 'Step 2';
-
-
-export const FORM_FIELDS = [
-    {
+export const FORM_FIELDS = {
+    job_title : {
         label:"true" ,
         value: '',
         index: 0,
@@ -17,7 +14,7 @@ export const FORM_FIELDS = [
         placeholder:"ex. UX/UI Designer",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    company_name: {
         label:"true" ,
         value: '',
         field: 'company_name',
@@ -27,7 +24,7 @@ export const FORM_FIELDS = [
         placeholder:"ex. Google",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    industry: {
         label:"true",
         value: '',
         field: 'industry',
@@ -37,7 +34,7 @@ export const FORM_FIELDS = [
         placeholder:"ex. UX/UI Designer",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    location: {
         label:"true",
         value: '',
         labelValue:"Location",
@@ -47,7 +44,7 @@ export const FORM_FIELDS = [
         placeholder:"ex. Chennai",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    remote_type: {
         label:"true",
         value: '',
         field: 'remote_type',
@@ -57,7 +54,7 @@ export const FORM_FIELDS = [
         placeholder:"ex. In-office",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    min_experience: {
         label:"true",
         value: '',
         field: 'min_experience',
@@ -67,14 +64,14 @@ export const FORM_FIELDS = [
         placeholder:"Minimum",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    max_experience: {
         placeholder:"Maximum",
         value: '',
         index: 6,
         field: 'max_experience',
         className:"mt-6 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    min_salary: {
         label:"true",
         value: '',
         index: 7,
@@ -84,14 +81,14 @@ export const FORM_FIELDS = [
         placeholder:"Minimum",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    max_salary: {
         placeholder:"Maximum",
         value: '',
         index: 8,
         field: 'max_salary',
         className:"mt-6 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    total_employee: {
         label:"true" ,
         value: '',
         index: 9,
@@ -101,11 +98,12 @@ export const FORM_FIELDS = [
         placeholder:"ex. 100",
         className:"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
     },
-    {
+    apply_type: {
         label:"true" ,
         labelValue:"Apply type" ,
         field: 'apply_type',
         index: 10,
+        type: 'radio',
         labelClassName:"block uppercase tracking-wide text-font-color text-xs font-bold mb-2",
         radioOptions: [
             {
@@ -124,4 +122,4 @@ export const FORM_FIELDS = [
             }
         ]
     }
-];
+}

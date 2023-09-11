@@ -10,17 +10,34 @@ export default function Modal(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('formValues', formValues)
+        const { 
+            job_title, company_name, industry, location, remote_type, 
+            min_experience, max_experience, min_salary, max_salary, 
+            total_employee, apply_type } = formValues;
+        const payload = {
+            job_title: job_title.value,
+            company_name: company_name.value, 
+            industry: industry.value,
+            location: location.value, 
+            remote_type: remote_type.value, 
+            min_experience: min_experience.value, 
+            max_experience: max_experience.value,
+            min_salary: min_salary.value, 
+            max_salary: max_salary.value,
+            total_employee: total_employee.value,
+            apply_type: apply_type.value
+        };
+        console.log('payload', payload)
     }
 
-    const handleChange = (e, index) => {
-        const values = [...formValues];
-        values[index].value = e.target.value;
-        setFormValues(values);
+    const handleChange = (e, field) => {
+        console.log('values', field)
+        formValues[field].value = e.target.value;
+        setFormValues(formValues);
     };
 
     const stepOneSubmit = () => {
-
+        _setStep(2)
     }
 
     return (
@@ -49,25 +66,25 @@ export default function Modal(props) {
                                                 <div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
                                                         <div className="w-full px-3">
-                                                            <Input fields={FORM_FIELDS[0]} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['job_title']} onChange={handleChange} />
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
                                                         <div className="w-full px-3">
-                                                            <Input fields={FORM_FIELDS[1]} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['company_name']} onChange={handleChange} />
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
                                                         <div className="w-full px-3">
-                                                            <Input fields={FORM_FIELDS[2]} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['industry']} onChange={handleChange} />
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
                                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                                            <Input fields={FORM_FIELDS[3]} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['location']} onChange={handleChange} />
                                                         </div>
                                                         <div className="w-full md:w-1/2 px-3">
-                                                            <Input fields={FORM_FIELDS[4]} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['remote_type']} onChange={handleChange} />
                                                         </div>
                                                     </div>
                                                 </div> : (
@@ -75,29 +92,29 @@ export default function Modal(props) {
 
                                                         <div className="flex flex-wrap -mx-3 mb-6">
                                                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                                                <Input fields={FORM_FIELDS[5]} onChange={handleChange} />
+                                                                <Input fields={FORM_FIELDS['min_experience']} onChange={handleChange} />
                                                             </div>
                                                             <div className="w-full md:w-1/2 px-3">
-                                                                <Input fields={FORM_FIELDS[6]} onChange={handleChange} />
+                                                                <Input fields={FORM_FIELDS['max_experience']} onChange={handleChange} />
                                                             </div>
                                                         </div>
 
                                                         <div className="flex flex-wrap -mx-3 mb-6">
                                                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                                                <Input fields={FORM_FIELDS[7]} onChange={handleChange} />
+                                                                <Input fields={FORM_FIELDS['min_salary']} onChange={handleChange} />
                                                             </div>
                                                             <div className="w-full md:w-1/2 px-3">
-                                                                <Input fields={FORM_FIELDS[8]} onChange={handleChange} />
+                                                                <Input fields={FORM_FIELDS['max_salary']} onChange={handleChange} />
                                                             </div>
                                                         </div>
                                                         <div className="flex flex-wrap -mx-3 mb-6">
                                                             <div className="w-full px-3">
-                                                                <Input fields={FORM_FIELDS[9]} onChange={handleChange} />
+                                                                <Input fields={FORM_FIELDS['total_employee']} onChange={handleChange} />
                                                             </div>
                                                         </div>
                                                         <div className="flex flex-wrap -mx-3 mb-6">
                                                             <div className="w-full px-3 ">
-                                                                <Radio fields={FORM_FIELDS[10]} onChange={handleChange} />
+                                                                <Radio fields={FORM_FIELDS['apply_type']} onChange={handleChange} />
                                                             </div>
                                                         </div>
                                                     </div>
