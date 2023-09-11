@@ -3,7 +3,7 @@ import axios from 'axios';
 import Input from './components/Input';
 import Radio from './components/Radio'
 import { FORM_FIELDS, TITLE, STEP1, STEP2, STEP1_SUBMIT_BUTTON, STEP2_SUBMIT_BUTTON } from './constants/const';
-import { JOB_API } from './constants/apiConst';
+import { JOB_API, STATUS_TEXT, STATUS } from './constants/apiConst';
 
 export default function Modal(props) {
     const { showModal, setShowModal } = props
@@ -33,7 +33,7 @@ export default function Modal(props) {
         axios.post(JOB_API.URL, payload)
         .then(response => {
             const { status, statusText } = response;
-            if (status === 201 && statusText.toLowerCase() === "created") {
+            if (status === STATUS && statusText.toLowerCase() === STATUS_TEXT) {
                 setShowModal(false)
             }
         });
