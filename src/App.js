@@ -6,10 +6,11 @@ import { JOB_API, GET_STATUS } from './constants/apiConst';
 import { FORM_FIELDS, STEP2_SUBMIT_BUTTON, STEP2_UPDATE_BUTTON } from './constants/const';
 
 function App() {
-  const [showModal, setShowModal] = useState(false);
-  const [formType, setFormType] = useState(STEP2_SUBMIT_BUTTON);
-  const [id, setId] = useState(STEP2_SUBMIT_BUTTON);
-  const [cardDetails, setCardDetails] = useState([]);
+  const [showModal, _setShowModal] = useState(false);
+  const [formDetails, _setFormDetails] = useState(FORM_FIELDS);
+  const [formType, _setFormType] = useState(STEP2_SUBMIT_BUTTON);
+  const [id, _setId] = useState(STEP2_SUBMIT_BUTTON);
+  const [cardDetails, _setCardDetails] = useState([]);
 
   useEffect(() => {
     getDetails()
@@ -20,18 +21,31 @@ function App() {
       .then(response => {
           const { status, data } = response;
           if (status === GET_STATUS) {
-            setCardDetails(data)
+            _setCardDetails(data)
           }
       });
   }
 
   const jobCreated = () => {
-    setShowModal(false)
+    _setShowModal(false)
+  }
+
+  const resetForm = () => {
+    Object.keys(FORM_FIELDS).map((item) => {
+      if (!FORM_FIELDS[item].apply_type) {
+        FORM_FIELDS[item].value = ''
+      } else {
+        FORM_FIELDS[item].radioOptions.forEach((item) => {
+          item.value = false
+        })
+      }
+    })
   }
 
   const openModal = () => {
-    setFormType(STEP2_SUBMIT_BUTTON)
-    setShowModal(true)
+    resetForm()
+    _setFormType(STEP2_SUBMIT_BUTTON)
+    _setShowModal(true)
   }
 
   const editJob = (index) => {
@@ -40,7 +54,7 @@ function App() {
       min_experience, max_experience, min_salary, max_salary,
       total_employee, id, apply_type
     } = cardDetails[index];
-    setId(id);
+    _setId(id);
     FORM_FIELDS['job_title'].value = job_title
     FORM_FIELDS['company_name'].value = company_name
     FORM_FIELDS['industry'].value = industry
@@ -58,8 +72,8 @@ function App() {
       FORM_FIELDS['apply_type']['radioOptions'][1].value = true;
     }
     
-    setShowModal(true)
-    setFormType(STEP2_UPDATE_BUTTON)
+    _setShowModal(true)
+    _setFormType(STEP2_UPDATE_BUTTON)
   }
 
   return (
@@ -72,7 +86,7 @@ function App() {
         Create Job
       </button>
       {
-        showModal ? <Modal showModal={showModal} id={id} formType={formType} setShowModal={jobCreated} getDetails={getDetails} FORM_FIELDS={FORM_FIELDS} /> : null
+        showModal ? <Modal showModal={showModal} id={id} formType={formType} _setShowModal={jobCreated} getDetails={getDetails} FORM_FIELDS={formDetails} /> : null
       }
       <div className="gap-8 grid grid-cols-2 p-4">
         {cardDetails && cardDetails.map((item, index) => <JobCard key={index} index={index} editJob={editJob} cardDetails={item}></JobCard>)}

@@ -6,7 +6,7 @@ import { TITLE, STEP1, STEP2, STEP1_SUBMIT_BUTTON, STEP2_SUBMIT_BUTTON } from '.
 import { JOB_API, STATUS_TEXT, STATUS, GET_STATUS } from './constants/apiConst';
 
 export default function Modal(props) {
-    const { showModal, setShowModal, getDetails, FORM_FIELDS, formType, id } = props
+    const { showModal, _setShowModal, getDetails, FORM_FIELDS, formType, id } = props
     const [step, _setStep] = useState(1)
     const [filedChanged, _setFiledChanged] = useState(false)
     const [showErrorMessage, _setShowErrorMessage] = useState(false)
@@ -40,7 +40,7 @@ export default function Modal(props) {
             .then(response => {
                 const { status, statusText } = response;
                 if (status === STATUS && statusText.toLowerCase() === STATUS_TEXT) {
-                    setShowModal(false)
+                    _setShowModal(false)
                     getDetails()
                 }
             });
@@ -49,7 +49,7 @@ export default function Modal(props) {
             .then(response => {
                 const { status } = response;
                 if (status === GET_STATUS) {
-                    setShowModal(false)
+                    _setShowModal(false)
                     getDetails()
                 }
             });
