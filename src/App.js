@@ -1,8 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 import Modal from './Modal';
+import JobCard from './components/JobCard';
+import { JOB_API, GET_STATUS } from './constants/apiConst';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
+  const [cardDetails, setCardDetails] = useState([]);
+
+  useEffect(() => {
+    axios.get(JOB_API.URL)
+        .then(response => {
+            const { status, data } = response;
+            if (status === GET_STATUS) {
+              setCardDetails(data)
+            }
+        });
+  }, [])
 
   const jobCreated = () => {
     setShowModal(false)
@@ -20,6 +34,9 @@ function App() {
       {
         showModal ? <Modal showModal={showModal} setShowModal={jobCreated} /> : null
       }
+      <div className="gap-8 grid grid-cols-2 p-4">
+        {cardDetails && cardDetails.map((item, index) => <JobCard key={index} cardDetails={item}></JobCard>)}
+      </div>
     </>
   );
 }

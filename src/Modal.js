@@ -51,6 +51,15 @@ export default function Modal(props) {
         _setFormValues(formValues);
     };
 
+    const handleRadioChange = (e, field, index) => {
+        if (formValues[field] !== undefined) {
+            formValues[field]['radioOptions'].forEach((item) => item.value = false)
+            formValues[field]['radioOptions'][index].value = !formValues[field]['radioOptions'][index].value;
+            _setFiledChanged(preVal => !preVal)
+            _setFormValues(formValues);
+        }
+    };
+
     const stepOneSubmit = () => {
         let isFormInValid = false;
         Object.keys(formValues).map((item) => {
@@ -144,7 +153,7 @@ export default function Modal(props) {
                                                         </div>
                                                         <div className="flex flex-wrap -mx-3 mb-6">
                                                             <div className="w-full px-3 ">
-                                                                <Radio fields={FORM_FIELDS['apply_type']} onChange={handleChange} />
+                                                                <Radio fields={FORM_FIELDS['apply_type']} handleRadioChange={handleRadioChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -181,7 +190,8 @@ export default function Modal(props) {
                         </div>
                         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                     </>
-                ) : null}
+                ) : null
+            }
         </>
     );
 }

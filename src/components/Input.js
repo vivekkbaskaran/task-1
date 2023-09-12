@@ -1,7 +1,6 @@
 export default function Input(props) {
     const { onChange, showErrorMessage } = props;
     const { className, placeholder, label, labelValue, labelClassName, value, field, errorMessage, invalid } = props.fields;
-    console.log('testing error msg', showErrorMessage)
 
     return (
         <>
@@ -10,7 +9,7 @@ export default function Input(props) {
             }
             <input type="text" value={value} name={field} onChange={(e) => onChange(e, field)} className={className} placeholder={placeholder} />
             {
-                showErrorMessage && invalid ? <h1>{ errorMessage }</h1> : ''
+                showErrorMessage && invalid ? <h1 className="text-error-color">{ errorMessage }</h1> : ''
             }
         </>
     )

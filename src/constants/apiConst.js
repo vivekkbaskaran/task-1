@@ -4,4 +4,6 @@ export const JOB_API = {
 }
 
 export const STATUS = 201;
+export const GET_STATUS = 200;
 export const STATUS_TEXT = 'created';
+

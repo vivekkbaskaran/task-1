@@ -1,9 +1,6 @@
 export default function Radio(props) {
-    const { radioOptions, label, labelValue, labelClassName } = props.fields;
-
-    const onChange = index => {
-        radioOptions[index].value = !radioOptions[index].value 
-    };
+    const { handleRadioChange } = props;
+    const { radioOptions, label, labelValue, labelClassName, field } = props.fields;
 
     return (
         <>
@@ -15,7 +12,7 @@ export default function Radio(props) {
                     const { name, className, label, id } = radio;
                     return (
                     <label  key={id}>
-                        <input type="radio" name={name} className={className} onChange={onChange(index)} /> 
+                        <input type="radio" name={name} className={className} onChange={(e) => handleRadioChange(e, field, index)}  /> 
                         {label}
                     </label>
                     )
