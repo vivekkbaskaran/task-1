@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import Modal from './Modal';
 import JobCard from './components/JobCard';
-import { JOB_API, GET_STATUS } from './constants/apiConst';
+import axios from 'axios';
+import { JOB_API, GET_STATUS, STATUS } from './constants/apiConst';
 import { FORM_FIELDS, STEP2_SUBMIT_BUTTON, STEP2_UPDATE_BUTTON } from './constants/const';
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   const jobCreated = () => {
     _setShowModal(false)
   }
-
+  
   const resetForm = () => {
     Object.keys(FORM_FIELDS).map((item) => {
       if (!FORM_FIELDS[item].apply_type) {
@@ -76,6 +76,19 @@ function App() {
     _setFormType(STEP2_UPDATE_BUTTON)
   }
 
+  const deleteJob = (index) => {
+    const id = cardDetails[index].id;
+    axios.delete(`${JOB_API.URL}/${id}`)
+      .then(response => {
+        console.log(response)
+          const { status } = response;
+          if (status === GET_STATUS) {
+              _setShowModal(false)
+              getDetails()
+          }
+      });
+  }
+
   return (
     <>
       <button
@@ -89,7 +102,7 @@ function App() {
         showModal ? <Modal showModal={showModal} id={id} formType={formType} _setShowModal={jobCreated} getDetails={getDetails} FORM_FIELDS={formDetails} /> : null
       }
       <div className="gap-8 grid grid-cols-2 p-4">
-        {cardDetails && cardDetails.map((item, index) => <JobCard key={index} index={index} editJob={editJob} cardDetails={item}></JobCard>)}
+        {cardDetails && cardDetails.map((item, index) => <JobCard key={index} deleteJob={deleteJob} index={index} editJob={editJob} cardDetails={item}></JobCard>)}
       </div>
     </>
   );
