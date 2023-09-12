@@ -9,10 +9,10 @@ export default function Radio(props) {
             }
             {
                 radioOptions.map((radio, index) => {
-                    const { name, className, label, id } = radio;
+                    const { name, className, label, id, value } = radio;
                     return (
                     <label  key={id}>
-                        <input type="radio" name={name} className={className} onChange={(e) => handleRadioChange(e, field, index)}  /> 
+                        <input type="radio" checked={value} name={name} className={className} onChange={(e) => handleRadioChange(e, field, index)}  /> 
                         {label}
                     </label>
                     )

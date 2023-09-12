@@ -2,6 +2,7 @@ export const TITLE = 'Create a job';
 export const STEP1 = 'Step 1';
 export const STEP1_SUBMIT_BUTTON = 'Next';
 export const STEP2_SUBMIT_BUTTON = 'Save';
+export const STEP2_UPDATE_BUTTON = 'Update';
 export const STEP2 = 'Step 2';
 export const FORM_FIELDS = {
     job_title : {

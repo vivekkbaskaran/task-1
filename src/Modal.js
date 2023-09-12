@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Input from './components/Input';
 import Radio from './components/Radio'
-import { FORM_FIELDS, TITLE, STEP1, STEP2, STEP1_SUBMIT_BUTTON, STEP2_SUBMIT_BUTTON } from './constants/const';
-import { JOB_API, STATUS_TEXT, STATUS } from './constants/apiConst';
+import { TITLE, STEP1, STEP2, STEP1_SUBMIT_BUTTON, STEP2_SUBMIT_BUTTON } from './constants/const';
+import { JOB_API, STATUS_TEXT, STATUS, GET_STATUS } from './constants/apiConst';
 
 export default function Modal(props) {
-    const { showModal, setShowModal } = props
+    const { showModal, setShowModal, getDetails, FORM_FIELDS, formType, id } = props
     const [step, _setStep] = useState(1)
     const [filedChanged, _setFiledChanged] = useState(false)
     const [showErrorMessage, _setShowErrorMessage] = useState(false)
@@ -35,13 +35,26 @@ export default function Modal(props) {
             total_employee: total_employee.value,
             apply_type: apply_type.value
         };
-        axios.post(JOB_API.URL, payload)
-        .then(response => {
-            const { status, statusText } = response;
-            if (status === STATUS && statusText.toLowerCase() === STATUS_TEXT) {
-                setShowModal(false)
-            }
-        });
+        if (formType === STEP2_SUBMIT_BUTTON) {
+            axios.post(JOB_API.URL, payload)
+            .then(response => {
+                const { status, statusText } = response;
+                if (status === STATUS && statusText.toLowerCase() === STATUS_TEXT) {
+                    setShowModal(false)
+                    getDetails()
+                }
+            });
+        } else {
+            axios.put(`${JOB_API.URL}/${id}`, payload)
+            .then(response => {
+                const { status } = response;
+                if (status === GET_STATUS) {
+                    setShowModal(false)
+                    getDetails()
+                }
+            });
+        }
+        
     }
 
     const handleChange = (e, field) => {
@@ -53,8 +66,16 @@ export default function Modal(props) {
 
     const handleRadioChange = (e, field, index) => {
         if (formValues[field] !== undefined) {
+            formValues[field].value = '';
             formValues[field]['radioOptions'].forEach((item) => item.value = false)
-            formValues[field]['radioOptions'][index].value = !formValues[field]['radioOptions'][index].value;
+            const applyType = formValues[field]['radioOptions'][index];
+            formValues[field]['radioOptions'][index].value = !applyType.value;
+            if (applyType.label === 'Quick apply') {
+                formValues[field].value = 'internal'
+            }
+            if (applyType.label === 'External apply') {
+                formValues[field].value = 'external'
+            }
             _setFiledChanged(preVal => !preVal)
             _setFormValues(formValues);
         }
@@ -88,7 +109,7 @@ export default function Modal(props) {
                         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                             <div className="relative w-auto my-6 mx-auto max-w-3xl">
                                 {/*content*/}
-                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-card-color outline-none focus:outline-none">
                                     {/*header*/}
                                     <div className="flex items-start justify-between p-5 rounded-t">
                                         <h4 className="text-font-color font-semibold text-lg">
