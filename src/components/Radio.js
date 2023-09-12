@@ -14,12 +14,10 @@ export default function Radio(props) {
                 radioOptions.map((radio, index) => {
                     const { name, className, label, id } = radio;
                     return (
-                        <>
-                            <label>
-                                <input key={id} type="radio" name={name} className={className} onChange={onChange(index)} /> 
-                                {label}
-                            </label>
-                        </>
+                    <label  key={id}>
+                        <input type="radio" name={name} className={className} onChange={onChange(index)} /> 
+                        {label}
+                    </label>
                     )
                 })
             }

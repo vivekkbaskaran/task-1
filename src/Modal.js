@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Input from './components/Input';
 import Radio from './components/Radio'
@@ -8,7 +8,12 @@ import { JOB_API, STATUS_TEXT, STATUS } from './constants/apiConst';
 export default function Modal(props) {
     const { showModal, setShowModal } = props
     const [step, _setStep] = useState(1)
-    const [formValues, setFormValues] = useState(FORM_FIELDS)
+    const [filedChanged, _setFiledChanged] = useState(false)
+    const [showErrorMessage, _setShowErrorMessage] = useState(false)
+    const [formValues, _setFormValues] = useState(FORM_FIELDS)
+
+    useEffect(() => {
+    }, [showErrorMessage, filedChanged])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,12 +46,29 @@ export default function Modal(props) {
 
     const handleChange = (e, field) => {
         formValues[field].value = e.target.value;
-        setFormValues(formValues);
+        formValues[field].invalid = e.target.value.length > 0 ? false : true;
+        _setFiledChanged(preVal => !preVal)
+        _setFormValues(formValues);
     };
 
     const stepOneSubmit = () => {
-        console.log('formValues', formValues)
-        _setStep(2)
+        let isFormInValid = false;
+        Object.keys(formValues).map((item) => {
+            if (formValues[item].required && formValues[item].value.length === 0) {
+                isFormInValid = true;
+                formValues[item].invalid = true;
+            } else {
+                formValues[item].invalid = false;
+            }
+        })
+        if (!isFormInValid) {
+            _setShowErrorMessage(false)
+            _setStep(2)
+        } else {
+            _setFiledChanged(preVal => !preVal)
+            _setFormValues(formValues);
+            _setShowErrorMessage(true)
+        }
     }
 
     return (
@@ -75,17 +97,17 @@ export default function Modal(props) {
                                                 <div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
                                                         <div className="w-full px-3">
-                                                            <Input fields={FORM_FIELDS['job_title']} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['job_title']} onChange={handleChange} showErrorMessage={showErrorMessage} />
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
                                                         <div className="w-full px-3">
-                                                            <Input fields={FORM_FIELDS['company_name']} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['company_name']} onChange={handleChange} showErrorMessage={showErrorMessage} />
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
                                                         <div className="w-full px-3">
-                                                            <Input fields={FORM_FIELDS['industry']} onChange={handleChange} />
+                                                            <Input fields={FORM_FIELDS['industry']} onChange={handleChange} showErrorMessage={showErrorMessage} />
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-wrap -mx-3 mb-6">
@@ -98,7 +120,6 @@ export default function Modal(props) {
                                                     </div>
                                                 </div> : (
                                                     <div>
-
                                                         <div className="flex flex-wrap -mx-3 mb-6">
                                                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                                                 <Input fields={FORM_FIELDS['min_experience']} onChange={handleChange} />
